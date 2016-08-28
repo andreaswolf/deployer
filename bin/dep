@@ -37,16 +37,16 @@ require_once 'src/functions.php';
 // Init Deployer
 $console = new \Deployer\Console\Application('Deployer', 'master');
 $input = new \Symfony\Component\Console\Input\ArgvInput();
+$input->bind($console->getDefinition());
 $output = new \Symfony\Component\Console\Output\ConsoleOutput();
 $deployer = new \Deployer\Deployer($console, $input, $output);
 
 // Require deploy.php script
-$options = getopt('f::', ['file::']);
+$options = $input->getOptions();
 $userSpecifiedFile = null;
 
-if (isset($options['f'])) {
-    $userSpecifiedFile = $options['f'];
-} elseif (isset($options['file'])) {
+
+if (isset($options['file'])) {
     $userSpecifiedFile = $options['file'];
 }
 
